@@ -160,6 +160,30 @@ class Parser
         }
     }
 
+
+    /**
+     * Retrieve a specific Email Header as an array. Useful when you may have multiple headers with the same name.
+     * @return Array
+     * @param $name String Header name
+     */
+    public function getHeaderAsArray($name)
+    {
+        if (isset($this->parts[1])) {
+            $headers = $this->getPart('headers', $this->parts[1]);
+            $headersArray = [];
+            if (isset($headers[$name])) {
+                foreach((array)$headers[$name] as $header) {
+                    $headersArray[] = $this->decodeHeader($header);
+                }
+            }
+            return $headersArray;
+        } else {
+            throw new \Exception(
+                'setPath() or setText() or setStream() must be called before retrieving email headers.'
+            );
+        }
+    }
+
     /**
      * Returns the email message body in the specified format
      * @return Mixed String Body or False if not found
