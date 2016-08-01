@@ -144,6 +144,21 @@ class Parser
     }
 
     /**
+     * Retrieve all the headers
+     * @return array
+     */
+    public function getHeaders()
+    {
+        if (isset($this->parts[1])) {
+            return $this->getPart('headers', $this->parts[1]);
+        } else {
+            throw new \Exception(
+                'setPath() or setText() or setStream() must be called before retrieving email headers.'
+            );
+        }
+    }
+
+    /**
      * Retrieve a specific Email Header
      * @return String
      * @param $name String Header name
